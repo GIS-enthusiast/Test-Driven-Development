@@ -28,4 +28,4 @@ USER myuser
 
 # run gunicorn
 CMD gunicorn --bind 0.0.0.0:$PORT manage:app
-M# haroku app is called pacific-atoll-78103
+# haroku app is called pacific-atoll-78103
