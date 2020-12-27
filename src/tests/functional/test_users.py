@@ -7,6 +7,7 @@ import json
 from src.api.models import User
 
 
+# POST route
 def test_add_user(test_app, test_database):
     client = test_app.test_client()
     resp = client.post(
@@ -60,7 +61,7 @@ def test_add_user_duplicate_email(test_app, test_database):
     assert "Sorry. That email already exists." in data["message"]
 
 
-# test GET route
+# GET route
 def test_single_user(test_app, test_database, add_user):
     user = add_user("Sir Ed", "sired@everest.com")
     client = test_app.test_client()
@@ -95,6 +96,7 @@ def test_all_users(test_app, test_database, add_user):
     assert "ernie@seasamestreet.com" in data[1]["email"]
 
 
+# DELETE Route
 def test_remove_user(test_app, test_database, add_user):
     test_database.session.query(User).delete() # clear database
     user = add_user("user-to-be-removed", "remove-me@seasame.com")
@@ -112,7 +114,7 @@ def test_remove_user(test_app, test_database, add_user):
     resp_three = client.get("/users")
     data = json.loads(resp_three.data.decode())
     assert resp_three.status_code == 200
-    assert len(data) == 1
+    assert len(data) == 0
 
 
 def test_remove_user_incorrect_id(test_app, test_database):
