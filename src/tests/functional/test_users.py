@@ -148,7 +148,7 @@ def test_update_user(test_app, test_database, add_user):
 def test_update_user_invalid_json(test_app, test_database):
     client = test_app.test_client()
     resp = client.put(
-        f"/users/1",
+        "/users/1",
         data = json.dumps({}),
         content_type = "application/json"
     )
@@ -159,8 +159,8 @@ def test_update_user_invalid_json(test_app, test_database):
 
 def test_update_user_invalid_json_keys(test_app, test_database):
     client = test_app.test_client()
-    resp = client.get(
-        f"/users/1",
+    resp = client.put(
+        "/users/1",
         data = json.dumps({"email": "me@seasame.com"}),
         content_type = "application/json"
     )
@@ -169,10 +169,10 @@ def test_update_user_invalid_json_keys(test_app, test_database):
     assert "Input payload validation failed" in data["message"]
 
 
-def test_updata_user_does_not_exist(test_app, test_database):
+def test_update_user_does_not_exist(test_app, test_database):
     client = test_app.test_client()
     resp = client.put(
-        f"/users/999",
+        "/users/999",
         data = json.dumps({"username": "shane", "email": "dataandgis@seasame.com"}),
         content_type = "application/json"
     )
