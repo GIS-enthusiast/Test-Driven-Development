@@ -4,6 +4,8 @@
 
 import json
 
+import pytest
+
 from src.api.models import User
 
 
@@ -98,7 +100,7 @@ def test_all_users(test_app, test_database, add_user):
 
 # DELETE Route
 def test_remove_user(test_app, test_database, add_user):
-    test_database.session.query(User).delete() # clear database
+    test_database.session.query(User).delete()  # clear database
     user = add_user("user-to-be-removed", "remove-me@seasame.com")
     client = test_app.test_client()
     resp_one = client.get("/users")
@@ -131,8 +133,8 @@ def test_update_user(test_app, test_database, add_user):
     client = test_app.test_client()
     resp_one = client.put(
         f"/users/{user.id}",
-        data = json.dumps({"username": "me", "email": "me@seasame.com"}),
-        content_type = "application/json"
+        data=json.dumps({"username": "me", "email": "me@seasame.com"}),
+        content_type="application/json",
     )
     data = json.loads(resp_one.data.decode())
     assert resp_one.status_code == 200
@@ -145,40 +147,29 @@ def test_update_user(test_app, test_database, add_user):
     assert "me@seasame.com" in data["email"]
 
 
-def test_update_user_invalid_json(test_app, test_database):
+@pytest.mark.parametrize(
+    "user_id, payload, status_code, message",
+    [
+        [1, {}, 400, "Input payload validation failed"],
+        [1, {"email": "me@seasame.com"}, 400, "Input payload validation failed"],
+        [
+            999,
+            {"username": "shane", "email": "dataandgis@seasame.com"},
+            404,
+            "User 999 does not exist",
+        ],
+    ],
+)
+def test_update_user_invalid(
+    test_app, test_database, user_id, payload, status_code, message
+):
     client = test_app.test_client()
     resp = client.put(
-        "/users/1",
-        data = json.dumps({}),
-        content_type = "application/json"
+        f"/users/{user_id}", data=json.dumps(payload), content_type="application/json"
     )
     data = json.loads(resp.data.decode())
-    assert resp.status_code == 400
-    assert "Input payload validation failed" in data["message"]
-
-
-def test_update_user_invalid_json_keys(test_app, test_database):
-    client = test_app.test_client()
-    resp = client.put(
-        "/users/1",
-        data = json.dumps({"email": "me@seasame.com"}),
-        content_type = "application/json"
-    )
-    data = json.loads(resp.data.decode())
-    assert resp.status_code == 400
-    assert "Input payload validation failed" in data["message"]
-
-
-def test_update_user_does_not_exist(test_app, test_database):
-    client = test_app.test_client()
-    resp = client.put(
-        "/users/999",
-        data = json.dumps({"username": "shane", "email": "dataandgis@seasame.com"}),
-        content_type = "application/json"
-    )
-    data = json.loads(resp.data.decode())
-    assert resp.status_code == 404
-    assert "User 999 does not exist" in data["message"]
+    assert resp.status_code == status_code
+    assert message in data["message"]
 
 
 # sudo docker-compose exec api python -m pytest "src/tests"
