@@ -2,8 +2,7 @@
 
 # here, the database calls are abstracted out from the actual route handlers
 
-from src import db 
-
+from src import db
 from src.api.models import User
 
 
@@ -37,4 +36,3 @@ def delete_user(user):
     db.session.delete(user)
     db.session.commit()
     return user
-
