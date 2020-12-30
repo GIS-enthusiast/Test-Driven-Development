@@ -15,8 +15,10 @@ RUN apt-get update \
   && apt-get clean
 
 # add and install requirements
+RUN pip install --upgrade pip
 COPY ./requirements.txt .
-RUN pip install -r requirements.txt
+COPY ./requirements-dev.txt .
+RUN pip install -r requirements-dev.txt
 
 # add app
 COPY . .
@@ -25,6 +27,4 @@ COPY . .
 COPY ./entrypoint.sh .
 RUN chmod +x /usr/src/app/entrypoint.sh
 
-# run server
-CMD python manage.py run -h 0.0.0.0
 
