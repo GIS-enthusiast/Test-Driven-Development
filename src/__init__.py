@@ -12,6 +12,7 @@ db = SQLAlchemy()
 
 admin = Admin(template_mode="bootstrap3")
 
+
 # factory pattern
 def create_app(script_info=None):
 

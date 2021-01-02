@@ -2,8 +2,8 @@
 
 import os
 
-from sqlalchemy.sql import func
 from flask_admin.contrib.sqla import ModelView
+from sqlalchemy.sql import func
 
 from src import db
 
@@ -25,5 +25,5 @@ class User(db.Model):
 
 if os.getenv("FLASK_ENV") == "development":
     from src import admin
-    admin.add_view(ModelView(User, db.session))
 
+    admin.add_view(ModelView(User, db.session))
