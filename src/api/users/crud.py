@@ -1,9 +1,9 @@
-# src/api/crud.py
+# src/api/users/crud.py
 
 # here, the database calls are abstracted out from the actual route handlers
 
 from src import db
-from src.api.models import User
+from src.api.users.models import User
 
 
 def get_all_users():

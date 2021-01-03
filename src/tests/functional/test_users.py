@@ -6,7 +6,7 @@ import json
 
 import pytest
 
-from src.api.models import User
+from src.api.users.models import User
 
 
 # POST route

@@ -3,7 +3,7 @@
 import pytest
 
 from src import create_app, db
-from src.api.models import User
+from src.api.users.models import User
 
 
 # creating pytest fixtures
