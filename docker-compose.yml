@@ -14,8 +14,8 @@ services:
     environment:
       - FLASK_ENV=development
       - APP_SETTINGS=src.config.DevelopmentConfig
-      - DATABASE_URL=postgresql://postgres:postgres@api-db:5432/api_dev
-      - DATABASE_TEST_URL=postgresql://postgres:postgres@api-db:5432/api_test
+      - DATABASE_URL=postgresql://postgressql:postgres@api-db:5432/api_dev
+      - DATABASE_TEST_URL=postgresql://postgressql:postgres@api-db:5432/api_test
     depends_on:
       - api-db
   
