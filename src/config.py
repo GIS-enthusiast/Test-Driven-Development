@@ -26,4 +26,3 @@ class ProductionConfig(BaseConfig):
         url = url.replace("postgres://", "postgresql://", 1)
 
     SQLALCHEMY_DATABASE_URI = url
-
