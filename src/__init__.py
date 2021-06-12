@@ -10,7 +10,6 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 # instantiate the db
 db = SQLAlchemy()
-SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
 
 admin = Admin(template_mode="bootstrap3")
 
